@@ -1,0 +1,73 @@
+body {
+  box-sizing: border-box;
+  font-family: "Prompt", sans-serif;
+}
+
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+}
+
+.header-gradient {
+  background: linear-gradient(135deg, #3d2914 0%, #8b4513 50%, #a0522d 100%);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  color: white;
+}
+
+.form-input {
+  transition: all 0.3s ease;
+  border: 2px solid #d2b48c;
+}
+
+.form-input:focus {
+  border-color: #8b4513;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
+  outline: none;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
+}
+
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #8b4513;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.toast {
+  animation:
+    slideIn 0.5s ease,
+    fadeOut 0.5s ease 2.5s forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

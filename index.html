@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="th" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ระบบจัดการสินค้า - Trillion Eternity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  </head>
+  <body class="h-full bg-gradient-to-br from-amber-50 via-white to-orange-50">
+    <div class="h-full w-full overflow-auto">
+      <!-- Header -->
+      <header
+        class="header-gradient text-white py-4 px-4 shadow-xl sticky top-0 z-50"
+      >
+        <div class="max-w-6xl mx-auto">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <span class="text-2xl">☕</span>
+              </div>
+              <div>
+                <h1 id="company-title" class="text-lg md:text-xl font-bold">
+                  บริษัท ทริลเลียนอีเทอร์นิตี้ จำกัด
+                </h1>
+                <p class="text-amber-200 text-xs md:text-sm">
+                  ระบบบริหารจัดการสินค้า Khaotalu
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Navigation -->
+          <nav class="flex gap-2 overflow-x-auto pb-2">
+            <button
+              onclick="showPage('receive')"
+              class="nav-btn active flex-shrink-0 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
+            >
+              <span>📥</span> รับสินค้า
+            </button>
+            <button
+              onclick="showPage('export')"
+              class="nav-btn flex-shrink-0 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
+            >
+              <span>📤</span> ส่งออก
+            </button>
+            <button
+              onclick="showPage('stock')"
+              class="nav-btn flex-shrink-0 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-all"
+            >
+              <span>📊</span> STOCK
+            </button>
+          </nav>
+        </div>
+      </header>
+      <main class="max-w-4xl mx-auto p-4 pb-8">
+        <!-- Toast Container -->
+        <div
+          id="toast-container"
+          class="fixed top-24 right-4 z-50 space-y-2"
+        ></div>
+        <!-- Page 1: รับสินค้า -->
+        <div id="page-receive" class="page active">
+          <div class="bg-white rounded-2xl card-shadow p-6 mb-6">
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"
+              >
+                <span class="text-xl">📥</span>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">
+                บันทึกการรับสินค้าเข้า
+              </h2>
+            </div>
+            <form id="receive-form" class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >วันที่รับเข้า <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    type="date"
+                    name="receive_date"
+                    required
+                    class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >เวลาที่รับ <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    type="time"
+                    name="receive_time"
+                    required
+                    class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >เลขใบ P/O No. <span class="text-red-500">*</span></label
+                >
+                <input
+                  type="text"
+                  name="po_number"
+                  required
+                  placeholder="กรอกเลขใบ P/O"
+                  class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                />
+              </div>
+              <div class="bg-amber-50 rounded-xl p-4">
+                <label class="block text-sm font-medium text-gray-700 mb-3"
+                  >จำนวนสินค้าที่รับ (กล่อง)</label
+                >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1"
+                      >กาแฟดำ2.5g x 100 ซอง</label
+                    >
+                    <input
+                      type="number"
+                      name="product_1"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1"
+                      >กาแฟดำ2.5g x 50 ซอง</label
+                    >
+                    <input
+                      type="number"
+                      name="product_2"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1"
+                      >ออริจินอล</label
+                    >
+                    <input
+                      type="number"
+                      name="product_3"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1"
+                      >กาแฟดำ 180g</label
+                    >
+                    <input
+                      type="number"
+                      name="product_4"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1"
+                      >เอสเปรสโซ่</label
+                    >
+                    <input
+                      type="number"
+                      name="product_5"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1">กาแฟส้ม</label>
+                    <input
+                      type="number"
+                      name="product_6"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-600 flex-1">หญ้าหวาน</label>
+                    <input
+                      type="number"
+                      name="product_7"
+                      min="0"
+                      value="0"
+                      class="form-input w-20 px-3 py-2 rounded-lg text-center text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >ชื่อคนขับ</label
+                  >
+                  <input
+                    type="text"
+                    name="driver_name"
+                    placeholder="กรอกชื่อคนขับ"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >ทะเบียนรถ</label
+                  >
+                  <input
+                    type="text"
+                    name="car_plate"
+                    placeholder="กรอกทะเบียนรถ"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >ชื่อคนรับสินค้า <span class="text-red-500">*</span></label
+                >
+                <input
+                  type="text"
+                  name="receiver_name"
+                  required
+                  placeholder="กรอกชื่อคนรับ"
+                  class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >หมายเหตุ</label
+                >
+                <textarea
+                  name="note"
+                  rows="2"
+                  placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
+                  class="form-input w-full px-4 py-3 rounded-xl bg-amber-50/50"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                id="receive-submit-btn"
+                class="submit-btn w-full py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-2"
+              >
+                <span id="receive-btn-text">💾 บันทึกการรับสินค้า</span>
+                <div id="receive-spinner" class="loading-spinner hidden"></div>
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- Page 2: ส่งออก -->
+        <div id="page-export" class="page">
+          <div class="bg-white rounded-2xl card-shadow p-6 mb-6">
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center"
+              >
+                <span class="text-xl">📤</span>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">
+                บันทึกการส่งออกสินค้า
+              </h2>
+            </div>
+            <form id="export-form" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >วันที่ส่งออก <span class="text-red-500">*</span></label
+                >
+                <input
+                  type="date"
+                  name="export_date"
+                  required
+                  class="form-input w-full px-4 py-3 rounded-xl bg-blue-50/50"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >เลือกสินค้า <span class="text-red-500">*</span></label
+                >
+                <select
+                  name="product_name"
+                  required
+                  id="export-product"
+                  onchange="updateExportInfo()"
+                  class="form-input w-full px-4 py-3 rounded-xl bg-blue-50/50"
+                >
+                  <option value="">-- เลือกสินค้า --</option>
+                  <option
+                    value="Khaotalu สูตร กาแฟดำ 2.5g x 100 ซอง"
+                    data-rate="8"
+                  >
+                    Khaotalu สูตร กาแฟดำ 2.5g x 100 ซอง
+                  </option>
+                  <option
+                    value="Khaotalu สูตร กาแฟดำ 2.5g x 50 ซอง"
+                    data-rate="16"
+                  >
+                    Khaotalu สูตร กาแฟดำ 2.5g x 50 ซอง
+                  </option>
+                  <option value="Khaotalu สูตร ออริจินอล" data-rate="20">
+                    Khaotalu สูตร ออริจินอล
+                  </option>
+                  <option value="Khaotalu สูตร กาแฟดำ 180g" data-rate="18">
+                    Khaotalu สูตร กาแฟดำ 180g
+                  </option>
+                  <option value="Khaotalu สูตร เอสเปรสโซ่" data-rate="20">
+                    Khaotalu สูตร เอสเปรสโซ่
+                  </option>
+                  <option value="Khaotalu สูตร กาแฟส้ม" data-rate="18">
+                    Khaotalu สูตร กาแฟส้ม
+                  </option>
+                  <option value="Khaotalu สูตร หญ้าหวาน" data-rate="18">
+                    Khaotalu สูตร หญ้าหวาน
+                  </option>
+                </select>
+              </div>
+              <div
+                id="export-info"
+                class="hidden bg-amber-50 rounded-xl p-3 text-sm text-amber-800"
+              >
+                <span class="font-medium">ℹ️ อัตราส่วน:</span>
+                <span id="rate-info">-</span>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >จำนวน <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    type="number"
+                    name="quantity"
+                    required
+                    min="1"
+                    value="1"
+                    id="export-qty"
+                    onchange="calculateTotal()"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-blue-50/50"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >หน่วย <span class="text-red-500">*</span></label
+                  >
+                  <select
+                    name="unit"
+                    required
+                    id="export-unit"
+                    onchange="calculateTotal()"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-blue-50/50"
+                  >
+                    <option value="กล่อง">กล่อง</option>
+                    <option value="ห่อ">ห่อ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium text-green-800"
+                    >จำนวนรวม (ห่อ):</span
+                  >
+                  <span
+                    id="total-packs"
+                    class="text-2xl font-bold text-green-600"
+                    >-</span
+                  >
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >หมายเหตุ</label
+                >
+                <textarea
+                  name="export_note"
+                  rows="2"
+                  placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)"
+                  class="form-input w-full px-4 py-3 rounded-xl bg-blue-50/50"
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                id="export-submit-btn"
+                class="submit-btn w-full py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-2"
+              >
+                <span id="export-btn-text">📦 บันทึกการส่งออก</span>
+                <div id="export-spinner" class="loading-spinner hidden"></div>
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- Page 3: STOCK -->
+        <div id="page-stock" class="page">
+          <div class="bg-white rounded-2xl card-shadow p-6 mb-6">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center"
+                >
+                  <span class="text-xl">📊</span>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800">
+                  สต๊อกสินค้าคงเหลือ
+                </h2>
+              </div>
+              <button
+                onclick="refreshStock()"
+                class="px-4 py-2 bg-amber-100 hover:bg-amber-200 rounded-xl text-amber-800 text-sm font-medium transition-all flex items-center gap-2"
+              >
+                <span>🔄</span> รีเฟรช
+              </button>
+            </div>
+            <div id="stock-list" class="space-y-3">
+              <!-- Stock items will be rendered here -->
+            </div>
+            <!-- Manual Stock Adjustment -->
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <h3
+                class="font-semibold text-gray-800 mb-4 flex items-center gap-2"
+              >
+                <span>⚙️</span> ปรับปรุงสินค้าด้วยตนเอง
+              </h3>
+              <form id="stock-form" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >เลือกสินค้า <span class="text-red-500">*</span></label
+                  >
+                  <select
+                    name="stock_product"
+                    required
+                    id="stock-product"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-purple-50/50"
+                  >
+                    <option value="">-- เลือกสินค้า --</option>
+                    <option value="Khaotalu สูตร กาแฟดำ 2.5g x 100 ซอง">
+                      กาแฟดำ 100 ซอง
+                    </option>
+                    <option value="Khaotalu สูตร กาแฟดำ 2.5g x 50 ซอง">
+                      กาแฟดำ 50 ซอง
+                    </option>
+                    <option value="Khaotalu สูตร ออริจินอล">ออริจินอล</option>
+                    <option value="Khaotalu สูตร กาแฟดำ 180g">
+                      กาแฟดำ 180g
+                    </option>
+                    <option value="Khaotalu สูตร เอสเปรสโซ่">เอสเปรสโซ่</option>
+                    <option value="Khaotalu สูตร กาแฟส้ม">กาแฟส้ม</option>
+                    <option value="Khaotalu สูตร หญ้าหวาน">หญ้าหวาน</option>
+                  </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >ประเภทการปรับ</label
+                    >
+                    <select
+                      name="adjustment_type"
+                      id="adjustment-type"
+                      class="form-input w-full px-4 py-3 rounded-xl bg-purple-50/50"
+                    >
+                      <option value="set">ตั้งค่าใหม่</option>
+                      <option value="add">เพิ่ม</option>
+                      <option value="subtract">ลด</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >จำนวน (กล่อง)</label
+                    >
+                    <input
+                      type="number"
+                      name="stock_quantity"
+                      min="0"
+                      value="0"
+                      class="form-input w-full px-4 py-3 rounded-xl bg-purple-50/50"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >หมายเหตุการปรับปรุง</label
+                  >
+                  <input
+                    type="text"
+                    name="stock_note"
+                    placeholder="เหตุผลในการปรับปรุง"
+                    class="form-input w-full px-4 py-3 rounded-xl bg-purple-50/50"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  id="stock-submit-btn"
+                  class="submit-btn w-full py-4 rounded-xl text-white font-semibold flex items-center justify-center gap-2"
+                >
+                  <span id="stock-btn-text">💾 บันทึกการปรับปรุง Stock</span>
+                  <div id="stock-spinner" class="loading-spinner hidden"></div>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-white py-6 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-gray-400 text-sm">
+            © 2024 บริษัท ทริลเลียนอีเทอร์นิตี้ จำกัด | ระบบจัดการสินค้า
+            Khaotalu
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
